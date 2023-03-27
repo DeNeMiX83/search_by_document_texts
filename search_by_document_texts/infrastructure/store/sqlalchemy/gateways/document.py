@@ -1,0 +1,27 @@
+from sqlalchemy import update
+from .base import Gateway
+from search_by_document_texts.сore.protocols import DocGateway
+from search_by_document_texts.сore.entities import Document, DocumentId
+
+
+class DocGatewayImpl(Gateway, DocGateway):
+    async def get(self, id: DocumentId):
+        return await self._session.get(Document, DocumentId)
+
+    async def create(self, doc: Document):
+        self._session.add(doc)
+        await self._try_exc_flush()
+
+    async def update(self, doc: Document):
+        await self._session.execute(
+            update(Document)
+            .where(Document.id == doc.id)  # type: ignore
+            .values(
+                rubrics=doc.rubrics,
+                text=doc.text,
+                created_date=doc.created_date,
+            )
+        )
+
+    async def delete(self, doc: Document):
+        await self._session.delete(Document)

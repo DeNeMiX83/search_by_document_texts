@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: ${PROJECT_NAME}_database
+    image: postgres:14
+    volumes:
+      - ${PROJECT_NAME}_database_data:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_HOST_PORT}:${POSTGRES_PORT}
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    restart: on-failure
+
+  migrations:
+    container_name: ${PROJECT_NAME}_migrations
+    build:
+      context: ../
+      dockerfile: deploy/Dockerfile
+    command: ["make", "migrate-up"]
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  elasticsearch:
+    container_name: ${PROJECT_NAME}_elasticsearch
+    image: elasticsearch:8.6.2
+    ports:
+      - ${ELASTICSEARCH_HOST_PORT}:${ELASTICSEARCH_PORT}
+    environment:
+      # - ELASTIC_USERNAME=${ELASTICSEARCH_USERNAME}
+      - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD}
+
+  backend:
+    container_name: ${PROJECT_NAME}_backend
+    build:
+      context: ../
+      dockerfile: deploy/Dockerfile
+    command: ["make", "run-backend"]
+    env_file:
+      - .env
+    depends_on:
+      - migrations
+      - elasticsearch
+    restart: always
+  
+volumes:
+ search_by_document_texts_database_data:

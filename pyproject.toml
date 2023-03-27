@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "search-by-document-texts"
+version = "0.1.0"
+description = ""
+authors = ["mihey <daniil53891@yandex.com>"]
+readme = "README.md"
+packages = [{include = "search_by_document_texts"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pydantic = "^1.10.7"
+sqlalchemy = "^2.0.7"
+alembic = "^1.10.2"
+gunicorn = "^20.1.0"
+uvicorn = "^0.21.1"
+asyncpg = "^0.27.0"
+fastapi = "^0.95.0"
+elasticsearch = {extras = ["async"], version = "^8.6.2"}
+
+[tool.poetry.dev-dependencies]
+mypy = "^1.1.1"
+flake8 = "^6.0.0"
+flake8-print = "^5.0.0"
+flake8-pyproject = "^1.2.3"
+black = "^23.1.0"
+
+[tool.black]
+line-length = 79
+
+[tool.flake8]
+exclude = ['.git','__pycache__', '.env', 'venv', 'migrations',]
+max-line-length = 79
+max-complexivity = 8
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
