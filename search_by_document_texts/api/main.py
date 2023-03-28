@@ -35,6 +35,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         root_path=settings.root_path,
         docs_url=settings.api_url + settings.docs_url,
+        port=settings.port
     )
     setup_di(app, settings)
     sqlalchemy_mapping()

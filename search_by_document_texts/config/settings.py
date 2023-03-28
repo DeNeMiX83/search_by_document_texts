@@ -35,10 +35,10 @@ class ElasticsearchSettings:
     doc_index: str = field(init=False)
 
     def __post_init__(self):
-        self.user = os.getenv("ELASTICSEARCH_USERNAME")
-        self.password = os.getenv("ELASTICSEARCH_PASSWORD")
-        self.host = os.getenv("ELASTICSEARCH_HOST")
-        self.port = os.getenv("ELASTICSEARCH_PORT")
+        self.user = os.getenv("ELASTIC_USERNAME")
+        self.password = os.getenv("ELASTIC_PASSWORD")
+        self.host = os.getenv("ELASTIC_HOST")
+        self.port = os.getenv("ELASTIC_PORT")
         self.url = "https://{host}:{port}".format(
             host=self.host,
             port=self.port,
@@ -65,7 +65,7 @@ class Settings:
 
     def __post_init__(self):
         self.host = os.getenv("HOST")
-        self.port = os.getenv("HOST_BACKEND_PORT")
+        self.port = os.getenv("BACKEND_PORT")
         self.root_path = os.getenv("ROOT_PATH")
         self.api_url = os.getenv("API_URL")
         self.docs_url = os.getenv("DOCS_URL")
