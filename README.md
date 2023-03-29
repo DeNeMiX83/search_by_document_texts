@@ -70,6 +70,6 @@ root@docer_id:/# make es-create-indexs
 root@docer_id:/# make dump_data
 ```
   
-### На сервере с помощью.
+### На сервере.
 
 .env из .env.dev.example, ENV экспортировать не нужно
