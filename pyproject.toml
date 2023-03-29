@@ -18,11 +18,23 @@ fastapi = "^0.95.0"
 elasticsearch = {extras = ["async"], version = "^8.6.2"}
 
 [tool.poetry.dev-dependencies]
+pytest = "^7.2.2"
+httpx = "^0.23.3"
 mypy = "^1.1.1"
 flake8 = "^6.0.0"
 flake8-print = "^5.0.0"
 flake8-pyproject = "^1.2.3"
 black = "^23.1.0"
+
+[tool.pytest.ini_options]
+python_files = [
+    "tests/*.py",
+    "tests/**/*.py",
+]
+python_classes = [
+    "Test*",
+    "*Test",
+]
 
 [tool.black]
 line-length = 79

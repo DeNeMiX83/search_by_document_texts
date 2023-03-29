@@ -13,7 +13,7 @@ from search_by_document_texts.сore.entities import (
 )
 
 
-class CreateDocHandler(Hаndler[dto.DocumentCreate, None]):
+class CreateDocHandler(Hаndler[dto.DocumentCreate, Document]):
     def __init__(
         self,
         document_gateway: DocGateway,
@@ -26,7 +26,7 @@ class CreateDocHandler(Hаndler[dto.DocumentCreate, None]):
         self._doc_to_search_gateway = doc_to_search_gateway
         self._commiter = commiter
 
-    async def execute(self, doc_dto: dto.DocumentCreate) -> None:
+    async def execute(self, doc_dto: dto.DocumentCreate) -> Document:
         existing_rubrics = await self._rubric_gateway.get_by_names(
             [r.name for r in doc_dto.rubrics]
         )
@@ -51,3 +51,5 @@ class CreateDocHandler(Hаndler[dto.DocumentCreate, None]):
             text=doc_dto.text,
         )
         await self._doc_to_search_gateway.create(doc_to_search)
+
+        return doc

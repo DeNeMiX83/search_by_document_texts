@@ -1,7 +1,11 @@
+import os
 import asyncio
 from elasticsearch import AsyncElasticsearch
 
 from search_by_document_texts.config.settings import ElasticsearchSettings
+from search_by_document_texts.infrastructure.store.elasticsearch.connect import (  # noqa E501
+    create_elasticsearch_connect_factory,
+)
 
 
 async def mapping_doc(conn: AsyncElasticsearch, index: str):
@@ -11,7 +15,7 @@ async def mapping_doc(conn: AsyncElasticsearch, index: str):
             "text": {"type": "text"},
         }
     }
-    await conn.indices.create(index=index, body={"mappings": mapping})
+    await conn.indices.create(index=index, body={"mappings": mapping})  # type: ignore  # noqa E501
 
 
 async def mapping(
@@ -21,18 +25,10 @@ async def mapping(
 
 
 if __name__ == "__main__":
-    from search_by_document_texts.infrastructure.store.elasticsearch.connect import (  # noqa E501
-        create_elasticsearch_connect_factory,
-    )
-    import os
-
-    with open("deploy/.env.dev") as f:
-        for line in f:
-            if "=" in line:
-                key, value = map(lambda x: x.strip(), line.split("="))
-                os.environ[key] = value
-
     el_settings = ElasticsearchSettings()
+    el_settings.host = "localhost"
+    el_settings.port = os.getenv("ELASTIC_HOST_PORT")
+
     conn = create_elasticsearch_connect_factory(el_settings)()
 
     asyncio.run(mapping(conn, el_settings))

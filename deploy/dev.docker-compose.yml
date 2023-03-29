@@ -54,6 +54,12 @@ services:
           "      - localhost\n"\
           "    ip:\n"\
           "      - 127.0.0.1\n"\
+          "  - name: es02\n"\
+          "    dns:\n"\
+          "      - es02\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
           > config/certs/instances.yml;
           bin/elasticsearch-certutil cert --silent --pem -out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key;
           unzip config/certs/certs.zip -d config/certs;
@@ -160,11 +166,6 @@ services:
 
   kibana:
     container_name: ${PROJECT_NAME}_kibana
-    depends_on:
-      es01:
-        condition: service_healthy
-      es02:
-        condition: service_healthy
     image: kibana:${STACK_VERSION}
     volumes:
       - ${PROJECT_NAME}_certs:/usr/share/kibana/config/certs
@@ -187,6 +188,11 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
+    depends_on:
+      es01:
+        condition: service_healthy
+      es02:
+        condition: service_healthy
 
   backend: 
     container_name: ${PROJECT_NAME}_backend
@@ -209,6 +215,5 @@ volumes:
  search_by_document_texts_database_data:
  search_by_document_texts_esdata01:
  search_by_document_texts_esdata02:
- search_by_document_texts_esdata03:
  search_by_document_texts_kibanadata:
  search_by_document_texts_certs:

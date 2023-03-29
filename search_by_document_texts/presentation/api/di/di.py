@@ -6,7 +6,7 @@ from search_by_document_texts.infrastructure.store.elasticsearch.connect import 
     create_elasticsearch_connect_factory,
 )
 from search_by_document_texts.config.settings import Settings
-from search_by_document_texts.api.di.stubs import (
+from search_by_document_texts.presentation.api.di.stubs import (
     provide_sqlalchemy_session_stub,
     provide_elasticsearch_conn_stub,
     provide_settings_stub,
@@ -14,7 +14,7 @@ from search_by_document_texts.api.di.stubs import (
     provide_search_doc_handler_stub,
     provide_delete_doc_handler_stub,
 )
-from search_by_document_texts.api.di.provides import (
+from search_by_document_texts.presentation.api.di.provides import (
     provide_create_doc_handler,
     provide_search_doc_handler,
     provide_delete_doc_handler,
