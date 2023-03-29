@@ -13,6 +13,7 @@ from search_by_document_texts.infrastructure.store.elasticsearch import (
 from search_by_document_texts.сore.handlers import (
     CreateDocHandler,
     SearchDocByQuery,
+    DeleteDocHandler,
 )
 
 from .stubs import (
@@ -82,4 +83,24 @@ def provide_search_doc_handler(
     return SearchDocByQuery(
         document_gateway=doc_gateway,  # type: ignore
         doc_to_search_gateway=doc_to_search,  # type: ignore
+    )
+
+
+def provide_delete_doc_handler(
+    doc_gateway: sqlalchemy_gateways.Gateway = Depends(
+        get_sqlalchemy_gateway(sqlalchemy_gateways.DocGatewayImpl)
+    ),
+    doc_to_search: elasticsearch_gateways.Gateway = Depends(
+        get_elasticsearch_gateway(
+            elasticsearch_gateways.DocToSearchGatewayImpl
+        )
+    ),
+    commiter: sqlalchemy_gateways.Gateway = Depends(
+        get_sqlalchemy_gateway(sqlalchemy_gateways.CommiterImpl)
+    ),
+) -> DeleteDocHandler:
+    return DeleteDocHandler(
+        document_gateway=doc_gateway,  # type: ignore
+        doc_to_search_gateway=doc_to_search,  # type: ignore
+        commiter=commiter,  # type: ignore
     )

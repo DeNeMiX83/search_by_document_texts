@@ -1,10 +1,11 @@
 from search_by_document_texts.сore.dto import (
-    Document as Document_,
+    DocumentCreate as DocumentCreate_,
     QueryForSearchDoc as QueryForSearchDoc_,
+    DocumentDelete as DocumentDelete_,
 )
 
 
-class Document(Document_):
+class DocumentCreate(DocumentCreate_):
     class Config:
         schema_extra = {
             "example": {
@@ -16,9 +17,8 @@ class Document(Document_):
 
 
 class QueryForSearchDoc(QueryForSearchDoc_):
-    class Config:
-        schema_extra = {
-            "example": {
-                "text": "example text",
-            }
-        }
+    ...
+
+
+class DocumentDelete(DocumentDelete_):
+    ...

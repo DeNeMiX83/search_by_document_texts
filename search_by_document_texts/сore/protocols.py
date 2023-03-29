@@ -12,7 +12,7 @@ class DocGateway(Protocol):
     async def update(self, doc: Document):
         raise NotImplementedError
 
-    async def delete(self, doc: Document):
+    async def delete_by_id(self, doc_id: DocumentId):
         raise NotImplementedError
 
 
@@ -26,6 +26,9 @@ class DocToSearchGateway(Protocol):
         raise NotImplementedError
 
     async def search(self, text: str) -> List[DocToSearch]:
+        raise NotImplementedError
+
+    async def delete_by_doc_id(self, doc_id: DocumentId):
         raise NotImplementedError
 
 

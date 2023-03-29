@@ -9,7 +9,7 @@ from search_by_document_texts.сore.protocols import (
 from search_by_document_texts.сore.entities import Document, DocToSearch
 
 
-class CreateDocHandler(Hаndler[dto.Document, None]):
+class CreateDocHandler(Hаndler[dto.DocumentCreate, None]):
     def __init__(
         self,
         document_gateway: DocGateway,
@@ -22,7 +22,7 @@ class CreateDocHandler(Hаndler[dto.Document, None]):
         self._doc_to_search_gateway = doc_to_search_gateway
         self._commiter = commiter
 
-    async def execute(self, doc_dto: dto.Document) -> None:
+    async def execute(self, doc_dto: dto.DocumentCreate) -> None:
         rubrics = await self._rubric_gateway.get_by_names(
             [r.name for r in doc_dto.rubrics]
         )

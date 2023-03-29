@@ -12,10 +12,12 @@ from search_by_document_texts.api.di.stubs import (
     provide_settings_stub,
     provide_create_doc_handler_stub,
     provide_search_doc_handler_stub,
+    provide_delete_doc_handler_stub,
 )
 from search_by_document_texts.api.di.provides import (
     provide_create_doc_handler,
     provide_search_doc_handler,
+    provide_delete_doc_handler,
 )
 
 
@@ -36,5 +38,6 @@ def setup_di(app: FastAPI, settings: Settings):
         {
             provide_create_doc_handler_stub: provide_create_doc_handler,
             provide_search_doc_handler_stub: provide_search_doc_handler,
+            provide_delete_doc_handler_stub: provide_delete_doc_handler,
         }
     )

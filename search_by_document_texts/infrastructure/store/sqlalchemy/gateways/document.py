@@ -1,4 +1,4 @@
-from sqlalchemy import select, update
+from sqlalchemy import select, update, delete
 from sqlalchemy.orm import joinedload
 
 from .base import Gateway
@@ -10,8 +10,8 @@ class DocGatewayImpl(Gateway, DocGateway):
     async def get(self, id: DocumentId):
         stmt = (
             select(Document)
-            .where(Document.id == id)
-            .options(joinedload(Document.rubrics))
+            .where(Document.id == id)  # type: ignore
+            .options(joinedload(Document.rubrics))  # type: ignore
         )
         result = await self._session.execute(stmt)
         return result.scalars().first()
@@ -31,5 +31,6 @@ class DocGatewayImpl(Gateway, DocGateway):
             )
         )
 
-    async def delete(self, doc: Document):
-        await self._session.delete(Document)
+    async def delete_by_id(self, doc_id: DocumentId):
+        stmt = delete(Document).where(Document.id == doc_id)  # type: ignore
+        await self._session.execute(stmt)

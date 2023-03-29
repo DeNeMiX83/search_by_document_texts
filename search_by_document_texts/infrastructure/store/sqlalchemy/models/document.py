@@ -6,7 +6,9 @@ from search_by_document_texts.сore import entities
 document_rubric = Table(
     "document_rubric",
     Base.metadata,
-    Column("document_id", Integer, ForeignKey("document.id")),
+    Column(
+        "document_id", Integer, ForeignKey("document.id", ondelete="CASCADE")  # noqa
+    ),
     Column("rubric_id", Integer, ForeignKey("rubric.id")),
 )
 
