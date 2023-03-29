@@ -24,4 +24,5 @@ class SearchDocByQuery(Hаndler[dto.QueryForSearchDoc, List[Document]]):
         for doc_to_search in docs_to_search:
             doc = await self._document_gateway.get(doc_to_search.id)
             docs.append(doc)
+        docs.sort(key=lambda doc: doc.created_date, reverse=True)
         return docs
