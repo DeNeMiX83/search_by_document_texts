@@ -11,3 +11,7 @@ class Document(BaseModel):
     rubrics: List[Rubrics]
     text: str
     created_date: date = datetime.now().date()
+
+
+class QueryForSearchDoc(BaseModel):
+    text: str

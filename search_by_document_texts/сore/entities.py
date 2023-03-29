@@ -16,9 +16,9 @@ class Rubric:
 @dataclass
 class Document:
     id: Optional[DocumentId] = field(init=False)
-    rubrics: List[Rubric]
     text: str
     created_date: date
+    rubrics: List[Rubric] = field(default_factory=list)
 
 
 @dataclass

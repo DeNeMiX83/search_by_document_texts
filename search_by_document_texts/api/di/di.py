@@ -11,8 +11,12 @@ from search_by_document_texts.api.di.stubs import (
     provide_elasticsearch_conn_stub,
     provide_settings_stub,
     provide_create_doc_handler_stub,
+    provide_search_doc_handler_stub,
 )
-from search_by_document_texts.api.di.provides import provide_create_doc_handler
+from search_by_document_texts.api.di.provides import (
+    provide_create_doc_handler,
+    provide_search_doc_handler,
+)
 
 
 def setup_di(app: FastAPI, settings: Settings):
@@ -29,5 +33,8 @@ def setup_di(app: FastAPI, settings: Settings):
         }
     )
     app.dependency_overrides.update(
-        {provide_create_doc_handler_stub: provide_create_doc_handler}
+        {
+            provide_create_doc_handler_stub: provide_create_doc_handler,
+            provide_search_doc_handler_stub: provide_search_doc_handler,
+        }
     )

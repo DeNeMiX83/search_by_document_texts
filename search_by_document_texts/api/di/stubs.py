@@ -12,3 +12,7 @@ def provide_settings_stub():
 
 def provide_create_doc_handler_stub():
     pass
+
+
+def provide_search_doc_handler_stub():
+    pass

@@ -10,7 +10,10 @@ from search_by_document_texts.infrastructure.store.elasticsearch import (
     gateways as elasticsearch_gateways,
 )
 
-from search_by_document_texts.сore.handlers import CreateDocHandler
+from search_by_document_texts.сore.handlers import (
+    CreateDocHandler,
+    SearchDocByQuery,
+)
 
 from .stubs import (
     provide_sqlalchemy_session_stub,
@@ -63,4 +66,20 @@ def provide_create_doc_handler(
         rubric_gateway=rubric_gateway,  # type: ignore
         doc_to_search_gateway=doc_to_search,  # type: ignore
         commiter=commiter,  # type: ignore
+    )
+
+
+def provide_search_doc_handler(
+    doc_gateway: sqlalchemy_gateways.Gateway = Depends(
+        get_sqlalchemy_gateway(sqlalchemy_gateways.DocGatewayImpl)
+    ),
+    doc_to_search: elasticsearch_gateways.Gateway = Depends(
+        get_elasticsearch_gateway(
+            elasticsearch_gateways.DocToSearchGatewayImpl
+        )
+    ),
+) -> SearchDocByQuery:
+    return SearchDocByQuery(
+        document_gateway=doc_gateway,  # type: ignore
+        doc_to_search_gateway=doc_to_search,  # type: ignore
     )

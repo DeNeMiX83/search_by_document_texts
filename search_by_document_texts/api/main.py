@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
+
 from search_by_document_texts.api.di.di import setup_di
-
 from search_by_document_texts.api.routes import router
-
 from search_by_document_texts.infrastructure.store.sqlalchemy.models import (
     mapping as sqlalchemy_mapping,
 )

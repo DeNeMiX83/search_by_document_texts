@@ -1,4 +1,6 @@
-from sqlalchemy import update
+from sqlalchemy import select, update
+from sqlalchemy.orm import joinedload
+
 from .base import Gateway
 from search_by_document_texts.сore.protocols import DocGateway
 from search_by_document_texts.сore.entities import Document, DocumentId
@@ -6,7 +8,13 @@ from search_by_document_texts.сore.entities import Document, DocumentId
 
 class DocGatewayImpl(Gateway, DocGateway):
     async def get(self, id: DocumentId):
-        return await self._session.get(Document, DocumentId)
+        stmt = (
+            select(Document)
+            .where(Document.id == id)
+            .options(joinedload(Document.rubrics))
+        )
+        result = await self._session.execute(stmt)
+        return result.scalars().first()
 
     async def create(self, doc: Document):
         self._session.add(doc)
