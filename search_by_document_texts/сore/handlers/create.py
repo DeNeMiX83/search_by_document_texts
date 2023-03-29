@@ -6,7 +6,11 @@ from search_by_document_texts.сore.protocols import (
     Commiter,
     DocToSearchGateway,
 )
-from search_by_document_texts.сore.entities import Document, DocToSearch
+from search_by_document_texts.сore.entities import (
+    Document,
+    Rubric,
+    DocToSearch,
+)
 
 
 class CreateDocHandler(Hаndler[dto.DocumentCreate, None]):
@@ -23,9 +27,17 @@ class CreateDocHandler(Hаndler[dto.DocumentCreate, None]):
         self._commiter = commiter
 
     async def execute(self, doc_dto: dto.DocumentCreate) -> None:
-        rubrics = await self._rubric_gateway.get_by_names(
+        existing_rubrics = await self._rubric_gateway.get_by_names(
             [r.name for r in doc_dto.rubrics]
         )
+        existing_rubrics_del_id = []
+        for existing_rubric in existing_rubrics:
+            doc_without_id = Rubric(name=existing_rubric.name)
+            existing_rubrics_del_id.append(doc_without_id)
+        non_existing_rubrics = set(
+            [Rubric(r.name) for r in doc_dto.rubrics]
+        ) - set(existing_rubrics_del_id)
+        rubrics = existing_rubrics + list(non_existing_rubrics)
         doc = Document(
             text=doc_dto.text,
             created_date=doc_dto.created_date,

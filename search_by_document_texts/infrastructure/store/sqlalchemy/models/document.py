@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Date, ForeignKey, Table
+from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from .base import Base
 from search_by_document_texts.сore import entities
@@ -7,7 +7,9 @@ document_rubric = Table(
     "document_rubric",
     Base.metadata,
     Column(
-        "document_id", Integer, ForeignKey("document.id", ondelete="CASCADE")  # noqa
+        "document_id",
+        Integer,
+        ForeignKey("document.id", ondelete="CASCADE"),  # noqa
     ),
     Column("rubric_id", Integer, ForeignKey("rubric.id")),
 )
@@ -25,7 +27,7 @@ class Document(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     text = Column(String, nullable=False)
-    created_date = Column(Date, nullable=False)
+    created_date = Column(DateTime, nullable=False)
 
 
 def rubric_mapping(mapper_registry):

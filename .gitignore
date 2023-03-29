@@ -156,3 +156,5 @@ cython_debug/
 /deploy/.env**
 !/deploy/.env.prod.example
 !/deploy/.env.dev.example
+posts.csv
+dump_data.py

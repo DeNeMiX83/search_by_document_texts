@@ -1,18 +1,18 @@
 from typing import List
 from pydantic import BaseModel
-from datetime import date, datetime
+from datetime import datetime
 
 from .entities import DocumentId
 
 
-class Rubrics(BaseModel):
+class Rubric(BaseModel):
     name: str
 
 
 class DocumentCreate(BaseModel):
-    rubrics: List[Rubrics]
+    rubrics: List[Rubric]
     text: str
-    created_date: date = datetime.now().date()
+    created_date: datetime = datetime.now()
 
 
 class DocumentDelete(BaseModel):

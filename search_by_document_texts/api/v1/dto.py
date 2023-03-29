@@ -2,6 +2,7 @@ from search_by_document_texts.сore.dto import (
     DocumentCreate as DocumentCreate_,
     QueryForSearchDoc as QueryForSearchDoc_,
     DocumentDelete as DocumentDelete_,
+    Rubric as Rubric_,
 )
 
 
@@ -21,4 +22,8 @@ class QueryForSearchDoc(QueryForSearchDoc_):
 
 
 class DocumentDelete(DocumentDelete_):
+    ...
+
+
+class Rubric(Rubric_):
     ...

@@ -28,6 +28,9 @@ class DocToSearchGateway(Protocol):
     async def search(self, text: str) -> List[DocToSearch]:
         raise NotImplementedError
 
+    async def create(self, doc: DocToSearch):
+        raise NotImplementedError
+
     async def delete_by_doc_id(self, doc_id: DocumentId):
         raise NotImplementedError
 
